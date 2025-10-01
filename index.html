@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CICERO.NET</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style> 
+    body {
+      background-color: #ffffff;
+      color: #2c1a1a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      scroll-behavior: smooth;
+    }
+    nav, footer {
+      background-color: #6d1b23;
+      color: white;
+    }
+    nav a, footer a {
+      color: white;
+    }
+    h1, h2, h3 {
+      color: #6d1b23;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      font-style: italic;
+    }
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 6rem 2rem;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c5/Cicer%C3%B3n_denuncia_a_Catilina%2C_por_Cesare_Maccari.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 12px;
+      color: white;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.55);
+      border-radius: 12px;
+    }
+    .hero h1, .hero p {
+      position: relative;
+      z-index: 1;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-top: 1rem;
+      font-style: italic;
+      text-shadow: 0px 0px 8px rgba(255,255,255,0.8);
+      color: #ffffff !important;
+    }
+    section {
+      padding: 4rem 2rem;
+    }
+    section:nth-child(even) {
+      background: #f9f9f9;
+    }
+    button {
+      background-color: #6d1b23;
+      color: white;
+    }
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .tablink {
+      background-color: #6d1b23;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    .tablink:hover {
+      background-color: #922834;
+    }
+    .tabcontent {
+      display: none;
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background-color: #fdfdfd;
+    }
+    .tabcontent img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    /* Timeline */
+    .timeline {
+      border-left: 3px solid #6d1b23;
+      margin: 2rem 0;
+      padding-left: 1.5rem;
+    }
+    .timeline-event {
+      margin-bottom: 2rem;
+    }
+    .timeline-event h3 {
+      margin-bottom: 0.5rem;
+    }
+    .timeline-event img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+    /* Video */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+    .video-container iframe,
+    .video-container video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    /* Contenitori eleganti */
+    .contenitore-elegante {
+      background: #ffffff;
+      border: 2px solid #6d1b23;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+    }
+    #catilinarie .contenitore-elegante p {
+      color: inherit;     /* stesso colore degli altri paragrafi */
+      font-style: italic; /* stesso stile base dei <p> */
+      font-size: 1.1rem;  /* stessa grandezza degli altri paragrafi */
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    }
+    /* Opere */
+    details summary {
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: #6d1b23;
+      cursor: pointer;
+    }
+    #opere details p {
+      background: #ffffff;
+      border: 2px solid #6d1b23;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      color: #000000;
+      opacity: 0;
+      transform: translateY(-5px);
+      transition: all 0.4s ease-in-out;
+    }
+    #opere details[open] p {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>CICERO.NET</strong></li>
+    </ul>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#storia-orazione">Storia dell’orazione</a></li>
+      <li><a href="#cicerone">Cicerone</a></li>
+      <li><a href="#stile">Stile</a></li>
+      <li><a href="#opere">Opere</a></li>
+      <li><a href="#catilinarie">Catilinarie</a></li>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+      <li><a href="#contatti" role="button">Contatti</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <!-- Hero -->
+    <div id="home" class="hero">
+      <h1>CICERO.NET</h1>
+      <p>“Historia magistra vitae est.”</p>
+    </div>
+
+    <!-- Storia dell’orazione -->
+    <section id="storia-orazione">
+      <h2>Storia dell’orazione</h2>
+      <p>La nascita e lo sviluppo dell'arte oratoria:</p>
+
+      <div class="tabs">
+        <button class="tablink" onclick="apriTab(event, 'quando')">Quando</button>
+        <button class="tablink" onclick="apriTab(event, 'dove')">Dove</button>
+        <button class="tablink" onclick="apriTab(event, 'caratteristiche')">Caratteristiche</button>
+        <button class="tablink" onclick="apriTab(event, 'esponenti')">Esponenti</button>
+      </div>
+
+      <div id="quando" class="tabcontent">
+        <h3>Quando</h3>
+        <p>L’arte oratoria nasce nel V secolo a.C. durante il periodo Classico dell'Antica Grecia.</p>
+         <img src="https://www.focus.it/images/2025/03/12/atene-democrazia_1020x680.jpg" alt="Dove">
+      </div>
+
+      <div id="dove" class="tabcontent">
+        <h3>Dove</h3>
+        <p>Nasce in Grecia, più precisamente ad Atene, centro propulsore culturale e politico della Magna Grecia</p>
+        <img src="https://i.imgur.com/TVqe6pr.jpg" alt="Dove">
+      </div>
+
+      <div id="caratteristiche" class="tabcontent">
+        <h3>Caratteristiche</h3>
+        <p>L'arte oratoria nasce con lo scopo di migliorare le abilità di persuadere e convincere il pubblico assemble e tribunali</p>
+        <img src="https://tinyurl.com/c7azckup" alt="Caratteristiche">
+      </div>
+
+      <div id="esponenti" class="tabcontent">
+        <h3>Esponenti</h3>
+        <p>I primi autori che approcciano questa nuova arte sono:• Lisia,• Demostene,•Isocrate ed •Ermagora di Temno.</p>
+        <img src="https://tinyurl.com/bdcury4h " alt="Esponenti">
+      </div>
+    </section>
+
+    <!-- Cicerone -->
+    <section id="cicerone">
+      <h2>Cicerone</h2>
+      <p>La vita di un uomo astuto che intreccia il suo intelletto con la politica, la filosofia e l’arte della parola.</p>
+
+      <div class="timeline">
+        <div class="timeline-event">
+          <h3>Nascita (106 a.C.)</h3>
+          <p>Marco Tullio Cicerone nasce ad Arpino, un piccolo paese al centro del Lazio.</p>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkaXaRcqWBlrgaLGhCPmtAS0qbXAy0dbiwZQ&s" alt="Nascita">
+        </div>
+        <div class="timeline-event">
+          <h3>Consolato (63 a.C.)</h3>
+          <p>Diventa console della Repubblica Romana, sventando la congiura di Catilina.</p>
+          <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJZlAVagTtI6VE8Y_kcJ9m4jmNKHVCDZD88_n5EPImaOCrIkJFKFewBayXX4acDaDvu65RWRfL26Tuc-okbiyz-ugP69wbmYmTfoYxEM5k48derPXwn9C8X_7IRepsny9AbspFqqaWyNAw/s1600/Cicerone_5.jpg" alt="Consolato">
+        </div>
+        <div class="timeline-event">
+          <h3>Esilio (58 a.C.)</h3>
+          <p>Costretto all’esilio a causa dei suoi avversari politici.</p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Franciabigio_-_The_Triumph_of_Cicero_-_WGA08193.jpg" alt="Esilio">
+        </div>
+        <div class="timeline-event">
+          <h3>Morte (43 a.C.)</h3>
+          <p>Viene ucciso durante le proscrizioni del secondo triumvirato.</p>
+          <img src="https://content.storicang.it/medio/2019/12/22/lira-di-fulvia-contro-cicerone-olio-di-gregorio-lazzarini-del-1692-gemaldegalerie-alte-meister-kassel_cddee7b5_800x650.jpg" alt="Morte">
+        </div>
+      </div>
+    </section>
+
+    <!-- Stile -->
+    <section id="stile">
+      <h2>Stile</h2>
+      <div class="contenitore-elegante">
+        <p>
+          Lo stile di Cicerone, ispirato a Demostene, è ricco e vario: unisce solennità a brevità ed essenzialità.
+          Si caratterizza per la disposizione equilibrata e complessa di parole e frasi, con simmetrie, parallelismi e figure di ripetizione.
+          Grande rilievo hanno l’eufonia e il ritmo, regolati da precise norme anche nella prosa.
+          Le numerose figure retoriche sono usate soprattutto in esordi, perorazioni ed elogi.
+        </p>
+      </div>
+    </section>
+
+    <section id="opere">
+      <h2>Opere</h2>
+      <p>Ecco alcune delle opere ciceroniane più famose:</p>
+
+      <details>
+        <summary>Le Verrinae</summary>
+        <p>“Verres accusatores comparavit; Verres fratrem ad se vocavit; Verres causam audivit; 
+           Verres sententiam dixit.”</p>
+      </details>
+
+      <details>
+        <summary>Pro Archia Poeta</summary>
+        <p>“Quid enim tam liberale, tam humanum, tam divinum, tamque homini dignum, quam litteras?”</p>
+      </details>
+
+      <details>
+        <summary>Pro Sestio</summary>
+        <p>“Ipsa enim largitio, et spes comm propositi sine mercede ulla multitud concitabat.”</p>
+      </details>
+
+      <details>
+        <summary>Pro Caelio</summary>
+        <p>“Quid enim est, quod ego non in hoc ipso causae meae principio dicam?”</p>
+      </details>
+
+      <details>
+        <summary>Pro Milone</summary>
+        <p>“Vixere fortes ante Agri, quique sui memores alios fecere merito.”</p>
+      </details>
+    </section>
+
+
+
+    <!-- Catilinarie -->
+    <!-- Catilinarie -->
+    <section id="catilinarie">
+      <h2>Catilinarie</h2>
+      <div class="contenitore-elegante">
+        <p>
+          “Quo usque tandem abutere, Catilina, patientia nostra?
+Quamdiu etiam furor iste tuus nos eludet?
+Quem ad finem sese effrenata iactabit audacia?
+Nihilne te nocturnum praesidium Palati, nihil urbis vigiliae, nihil timor populi, nihil concursus bonorum omnium, nihil hic munitissimus habendi senatus locus, nihil horum ora vultusque moverunt?
+Patere tua consilia non sentis?
+Constrictam iam horum omnium scientia teneri coniurationem tuam non vides?
+Quid proxima, quid superiore nocte egeris, ubi fueris, quos convocaveris, quid consilii ceperis, quem nostrum ignorare arbitraris?
+O tempora, o mores!
+Senatus haec intellegit, consul videt; hic tamen vivit."
+        </p>
+      </div>
+    </section>
+
+    <!-- Video -->
+    <section id="video">
+      <h2>Video</h2>
+      <p>Ecco come ci immaginiamo siano andate veramente le cose...</p>
+      <div class="video-container">
+        <!-- Esempio con YouTube -->
+        <iframe src=https://screenapp.io/app/#/shared/bmrdRAi8pN frameborder="0" allowfullscreen></iframe>
+      </div>
+    </section>
+
+  <!-- Sezione Quiz Interattivo -->
+<section id="quiz">
+  <div class="container">
+    <article>
+      <hgroup>
+        <h2>Quiz Interattivo</h2>
+        <h3>Mettiti alla prova!</h3>
+      </hgroup>
+
+      <div id="quiz-container"></div>
+      <p id="quizResult" style="margin-top:1rem; font-weight:bold;"></p>
+    </article>
+  </div>
+</section>
+
+<script>
+  const domande = [
+    {
+      testo: "1. Dove nasce l’attività oratoria?",
+      opzioni: ["Cina", "Mesopotamia", "Roma", "Grecia"],
+      corretta: 3
+    },
+    {
+      testo: "2. Quale di questi non è un oratore greco?",
+      opzioni: ["Lisa", "Catullo", "Demostene", "Isocrate"],
+      corretta: 1
+    },
+    {
+      testo: "3. In che regione nasce Cicerone?",
+      opzioni: ["Calabria", "Molise", "Lazio", "Napoli"],
+      corretta: 2
+    },
+    {
+      testo: "4. In quante parti si dividono le Verrinae?",
+      opzioni: ["3", "4", "5", "2"],
+      corretta: 0
+    },
+    {
+      testo: "5. In quale opera parla della sua ex amante?",
+      opzioni: ["Catilinariae", "Pro Milone", "Pro Caelio", "Pro Sestio"],
+      corretta: 2
+    },
+    {
+      testo: "6. Dove si tenne la prima Catilinaria?",
+      opzioni: ["Casa di Catilina", "Piazza", "Senato", "Tempio di Giove"],
+      corretta: 3
+    },
+    {
+      testo: "7. Come inizia la prima Catilinaria?",
+      opzioni: ["O tempora, o mores…", "Quo usque tandem abutere…", "Senatus popolusque romanus", "In nomine patris et filii"],
+      corretta: 1
+    },
+    {
+      testo: "8. Come muore Cicerone?",
+      opzioni: ["Ucciso dall’amante", "Strozzato", "Decapitato", "Cecchinato"],
+      corretta: 2
+    },
+    {
+      testo: "9. Con che arma convince il senato?",
+      opzioni: ["L’eloquenza", "Il coraggio", "L’arte della retorica", "ak47"],
+      corretta: 3
+    }
+  ];
+
+  let indice = 0;
+  let punteggio = 0;
+
+  function mostraDomanda() {
+    if (indice < domande.length) {
+      const d = domande[indice];
+      let html = `<p><strong>${d.testo}</strong></p>`;
+      d.opzioni.forEach((opzione, i) => {
+        html += `
+          <label>
+            <input type="radio" name="q${indice}" value="${i}">
+            ${opzione}
+          </label><br>
+        `;
+      });
+      html += `<p id="feedback"></p><button id="nextBtn" style="display:none;">Prossima domanda</button>`;
+      document.getElementById("quiz-container").innerHTML = html;
+
+      document.querySelectorAll(`input[name="q${indice}"]`).forEach(input => {
+        input.addEventListener("change", () => controllaRisposta(input.value));
+      });
+
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        indice++;
+        mostraDomanda();
+      });
+    } else {
+      document.getElementById("quiz-container").innerHTML = "";
+      document.getElementById("quizResult").textContent =
+        `Hai totalizzato ${punteggio} su ${domande.length} punti! 🎉`;
+    }
+  }
+
+  function controllaRisposta(valore) {
+    const feedback = document.getElementById("feedback");
+    const corretta = domande[indice].corretta;
+    const testoCorretto = domande[indice].opzioni[corretta];
+
+    if (parseInt(valore) === corretta) {
+      punteggio++;
+      feedback.textContent = "✅ Corretto!";
+      feedback.style.color = "green";
+    } else {
+      feedback.textContent = `❌ Sbagliato. La risposta corretta è: ${testoCorretto}`;
+      feedback.style.color = "red";
+    }
+
+    // Disabilita tutte le opzioni dopo la risposta
+    document.querySelectorAll(`input[name="q${indice}"]`).forEach(input => {
+      input.disabled = true;
+    });
+
+    // Mostra il tasto per andare avanti
+    document.getElementById("nextBtn").style.display = "inline-block";
+  }
+
+  // Avvio quiz
+  mostraDomanda();
+</script>
+
+
+  <!-- Contatti -->
+  <section id="contatti" aria-label="Contact example">
+    <div class="container">
+      <article>
+        <hgroup>
+          <h2>Contatti</h2>
+          <h3>Se avete dubbi (non) contattateci:</h3>
+        </hgroup>
+        <ul>
+         <li><a href="marco.lrs@icloud.com"> marco.lrs@icloud.com Marco </a></li>
+          <li><a href="chiara26.marotta@gmail.com"> chiara26.marotta@gmail.com Marotta </a></li>
+          <li><a href="mattiagimmillaro@gmail.com"> mattiagimmillaro@gmail.com Gimmy </a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="container">
+    <small>
+      <a href="#">Privacy</a> • <a href="#">Termini</a>
+    </small>
+  </footer>
+
+  <script>
+    function apriTab(evt, tabId) {
+      const tabcontent = document.querySelectorAll(".tabcontent");
+      tabcontent.forEach(el => el.style.display = "none");
+      const tablinks = document.querySelectorAll(".tablink");
+      tablinks.forEach(el => el.classList.remove("active"));
+      document.getElementById(tabId).style.display = "block";
+      evt.currentTarget.classList.add("active");
+    }
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelector(".tablink").click();
+    });
+  </script>
+</body>
+</html>
